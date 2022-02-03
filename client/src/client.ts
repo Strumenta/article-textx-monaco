@@ -20,10 +20,10 @@ monaco.languages.register({
 });
 
 // create Monaco editor
-const value = `{
-    "$schema": "http://json.schemastore.org/coffeelint",
-    "line_endings": "unix"
-}`;
+const value = `shape some_shape
+    lines red
+    line 12° 34 Look I'm a syntax error!
+end`;
 monaco.editor.create(document.getElementById("container")!, {
     model: monaco.editor.createModel(value, 'json', monaco.Uri.parse('inmemory://model.json')),
     glyphMargin: true,
