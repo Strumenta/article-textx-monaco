@@ -36,7 +36,7 @@ monaco.editor.create(document.getElementById("container")!, {
 MonacoServices.install(monaco);
 
 // create the web socket
-const url = createUrl('/sampleServer')
+const url = createUrl(`${location.hostname}:3001`);
 const webSocket = createWebSocket(url);
 // listen when the web socket is opened
 listen({
@@ -72,7 +72,7 @@ function createLanguageClient(connection: MessageConnection): MonacoLanguageClie
 
 function createUrl(path: string): string {
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-    return normalizeUrl(`${protocol}://${location.host}${location.pathname}${path}`);
+    return normalizeUrl(`${protocol}://${path}`);
 }
 
 function createWebSocket(url: string): WebSocket {
