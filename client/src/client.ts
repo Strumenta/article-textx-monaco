@@ -22,8 +22,11 @@ monaco.languages.register({
 // create Monaco editor
 const value = `shape some_shape
     lines red
-    line 12° 34 Look I'm a syntax error!
-end`;
+    line 12° 34
+end
+
+draw nonexisting_shape // And this is a semantic error
+`;
 monaco.editor.create(document.getElementById("container")!, {
     model: monaco.editor.createModel(value, 'json', monaco.Uri.parse('inmemory://model.json')),
     glyphMargin: true,

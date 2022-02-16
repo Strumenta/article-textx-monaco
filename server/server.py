@@ -1,10 +1,9 @@
 from pygls.server import LanguageServer
 from pygls.lsp.methods import (TEXT_DOCUMENT_DID_CHANGE, TEXT_DOCUMENT_DID_CLOSE, TEXT_DOCUMENT_DID_OPEN)
 from pygls.lsp.types import (Diagnostic, DiagnosticSeverity, Position, Range)
-from textx import metamodel_from_file
-from textx.exceptions import TextXSyntaxError
+import textx
 
-turtle_meta = metamodel_from_file("turtle.tx")
+turtle_meta = textx.metamodel_from_file("turtle.tx")
 
 server = LanguageServer()
 
@@ -25,7 +24,7 @@ def validate(ls, params):
     diagnostics = []
     try:
         turtle_meta.model_from_str(source)
-    except TextXSyntaxError as err:
+    except textx.exceptions.TextXError as err:
         diagnostics.append(Diagnostic(
             range=Range(
                 start=Position(line=err.line - 1, character=err.col - 1),
@@ -33,8 +32,7 @@ def validate(ls, params):
             ),
             message=err.message,
             severity=DiagnosticSeverity.Error,
-            source=type(server).__name__
-        ))
+            source=type(server).__name__))
 
     ls.publish_diagnostics(text_doc.uri, diagnostics)
 
